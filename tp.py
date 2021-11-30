@@ -1,8 +1,17 @@
+#lien youtube
+https://youtu.be/AFUdjyBbsog
+
+
 from multiprocessing import Process, Pipe
 from time import sleep
 import os
+from typing import Optional
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
+@app.get("/homehome")
 def worker(conn):
 
 	print('processus 1 - Initialisation du sommeil 1 seconde')
@@ -22,7 +31,7 @@ def worker(conn):
 	print('processus 1 - fermeture du processus 1, fin de la connection')
 	conn.close()
 	print('processus 1- Terminé')
-
+@app.get("/home")
 def main():
 
 	a = os.getpid()
@@ -54,6 +63,10 @@ def main():
 
 	print('processus 2 - Terminé')
 	print('\n\n')
+	
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Optional[str] = None):
+    return {"item_id": item_id, "q": q}
 
 if __name__ == '__main__':
 	main()
